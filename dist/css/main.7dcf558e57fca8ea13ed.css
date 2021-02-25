@@ -1,0 +1,15 @@
+
+@font-face {
+  font-family: "Pepi-Medium";
+  src: url(../assets/fonts/PepiMedium.c35d3ef76829abd4a81d.otf) format("opentype");
+}
+* {
+  font-family: "Pepi-Medium";
+}
+
+body {
+  background-color: #222;
+  color: red;
+  background-image: url(../assets/img/bitcoin-2.79499b93a2b3eee82c4b.png);
+  background-repeat: no-repeat;
+}

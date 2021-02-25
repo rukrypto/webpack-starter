@@ -1,8 +1,18 @@
 $colorNegro: #222;
 $blanco: red;
 
+@font-face {
+  font-family: 'Pepi-Medium';
+  src: url("../assets/fonts/PepiMedium.otf") format("opentype");
+}
+
+* {
+	font-family: 'Pepi-Medium';
+}
+
 body{
 	background-color: $colorNegro;
 	color: $blanco;
 	background-image: url('../assets/img/bitcoin-2.png');
+	background-repeat: no-repeat;
 }

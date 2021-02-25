@@ -7,10 +7,10 @@ const TerserPlugin       = require('terser-webpack-plugin');
 /** @type {import('webpack').Configuration} */
 module.exports = merge(common, {
 	mode: 'production',
-  devtool: "source-map",
+  devtool: 'source-map',
 	optimization: {
     splitChunks: {
-      chunks: "all",
+      chunks: 'all',
       name: false,
     },
     minimize: true,

@@ -1,5 +1,7 @@
 import '../css/styles.css';
 import '../scss/styles.scss';
+import '../css/testing.css';
+import '../scss/testing.scss';
 
 document.body.onload = addElement;
 
