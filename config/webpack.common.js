@@ -2,9 +2,8 @@ const path                   = require('path');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HtmlWebPackPlugin      = require('html-webpack-plugin');
 const MiniCssExtractPlugin   = require('mini-css-extract-plugin');
+const ImageMinimizerPlugin   = require('image-minimizer-webpack-plugin');
 // const CopyPlugin             = require('copy-webpack-plugin');
-// const CssMinimizerPlugin     = require('css-minimizer-webpack-plugin');
-// const TerserPlugin           = require('terser-webpack-plugin');
 
 /** @type {import('webpack').Configuration} */
 module.exports = {
@@ -55,10 +54,50 @@ module.exports = {
       },
 
       {
-        test: /\.(apng|avif|gif|jpg|jpeg|jfif|pjpeg|pjp|png|svg|webp)$/i,
+        test: /\.(apng|gif|avif|jpg|jpeg|jfif|pjpeg|pjp|png|webp)$/i,
+        type: 'asset',
+        generator: {
+         filename: 'assets/img/[name].[contenthash].webp[query]'
+        }, 
+        use: [
+          {
+            loader: ImageMinimizerPlugin.loader,
+            options: {
+              minimizerOptions: {
+                plugins: [ 'imagemin-webp' ]
+              }
+            }
+          },
+          {
+            loader: ImageMinimizerPlugin.loader,
+            options: {
+              minimizerOptions: {
+                plugins: [
+                  ['gifsicle', { interlaced: true, optimizationLevel: 3 }],
+                  ['mozjpeg', { quality: 80 }],
+                  ['pngquant', { quality: [0.6, 0.8] }],
+                ]
+              }
+            }
+          }
+        ]
+      },
+
+      {
+        test: /\.(svg)$/i,
         type: 'asset',
         generator: {
          filename: 'assets/img/[name].[contenthash][ext][query]'
+        }, 
+        use: {
+          loader: ImageMinimizerPlugin.loader,
+          options: {
+            minimizerOptions: {
+              plugins: [
+                [ 'svgo', { plugins: [{ removeViewBox: false }] } ]
+              ]
+            }
+          }
         }
       },
 
@@ -93,6 +132,7 @@ module.exports = {
       filename: 'css/[name].[contenthash].css',
       ignoreOrder: false
     }),
+    
     // Util pero no por ahora
     // new CopyPlugin({
     //   patterns: [
