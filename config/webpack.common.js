@@ -3,7 +3,6 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HtmlWebPackPlugin      = require('html-webpack-plugin');
 const MiniCssExtractPlugin   = require('mini-css-extract-plugin');
 const ImageMinimizerPlugin   = require('image-minimizer-webpack-plugin');
-// const CopyPlugin             = require('copy-webpack-plugin');
 
 /** @type {import('webpack').Configuration} */
 module.exports = {
@@ -75,7 +74,7 @@ module.exports = {
                 plugins: [
                   ['gifsicle', { interlaced: true, optimizationLevel: 3 }],
                   ['mozjpeg', { quality: 80 }],
-                  ['pngquant', { quality: [0.6, 0.8] }],
+                  ['pngquant', { quality: [0.6, 0.8] }]
                 ]
               }
             }
@@ -131,13 +130,6 @@ module.exports = {
     new MiniCssExtractPlugin({
       filename: 'css/[name].[contenthash].css',
       ignoreOrder: false
-    }),
-    
-    // Util pero no por ahora
-    // new CopyPlugin({
-    //   patterns: [
-    //     { from: 'src/assets', to: 'assets/' }
-    //   ]
-    // })
+    })
   ]
 };
