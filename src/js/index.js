@@ -1,7 +1,4 @@
-import '../css/styles.css';
-import '../scss/styles.scss';
-import '../css/testing.css';
-import '../scss/testing.scss';
+import bootstrap from 'bootstrap';
 
 document.body.onload = addElement;
 

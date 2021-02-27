@@ -7,11 +7,11 @@ const ImageMinimizerPlugin   = require('image-minimizer-webpack-plugin');
 /** @type {import('webpack').Configuration} */
 module.exports = {
 
-  entry: './src/js/index.js',
+  entry: ['./src/js/index.js', './src/scss/main.scss'],
 
   output: {
     path: path.resolve(__dirname, '../dist'),
-    filename: 'js/main.[contenthash].js',
+    filename: 'js/[name].[contenthash].js',
     publicPath: ''
   },
   
@@ -27,7 +27,7 @@ module.exports = {
 
       {
         test: /\.(css|scss|sass)$/i,
-        exclude: /styles\.(css|sass|scss)$/i,
+        exclude: /main\.(css|sass|scss)$/i,
         use: [ 
           'style-loader',
           'css-loader',
@@ -36,14 +36,31 @@ module.exports = {
       },
 
       {
-        test: /styles\.(css|sass|scss)$/i,
+        test: /main\.(css|sass|scss)$/i,
         use: [
           {
             loader: MiniCssExtractPlugin.loader,
-            options: { publicPath: '../' }
+            options: {
+              publicPath: '../'
+            }
           },
           { loader: 'css-loader' },
-          { loader: 'sass-loader' }
+          {
+            loader: 'postcss-loader',
+            options: {
+              postcssOptions: {
+                plugins: [
+                  [ 'autoprefixer' ]
+                ]
+              }
+            }
+          },
+          {
+            loader: 'sass-loader',
+            options: {
+              sourceMap: true
+            }
+          }
         ]
       },
 
@@ -54,9 +71,9 @@ module.exports = {
 
       {
         test: /\.(apng|gif|avif|jpg|jpeg|jfif|pjpeg|pjp|png|webp)$/i,
-        type: 'asset',
+        type: 'asset/resource',
         generator: {
-         filename: 'assets/img/[name].[contenthash].webp[query]'
+         filename: 'assets/img/[name].[hash].webp[query]'
         }, 
         use: [
           {
@@ -84,9 +101,9 @@ module.exports = {
 
       {
         test: /\.(svg)$/i,
-        type: 'asset',
+        type: 'asset/inline',
         generator: {
-         filename: 'assets/img/[name].[contenthash][ext][query]'
+         filename: 'assets/img/[name].[hash][ext][query]'
         }, 
         use: {
           loader: ImageMinimizerPlugin.loader,
@@ -102,9 +119,9 @@ module.exports = {
 
       {
         test: /\.(ttf|otf|woff|woff2|eot)$/i,
-        type: 'asset',
+        type: 'asset/resource',
         generator: {
-         filename: 'assets/fonts/[name].[contenthash][ext][query]'
+         filename: 'assets/fonts/[name].[hash][ext][query]'
         }
       },
 
@@ -112,7 +129,7 @@ module.exports = {
         test: /\.(webm|ogg|mp4|mp3|3gpp|3gpp2|3gp2|mpeg)$/i,
         type: 'asset',
         generator: {
-         filename: 'assets/media/[name].[contenthash][ext][query]'
+         filename: 'assets/media/[name].[hash][ext][query]'
         }
       }
     ]

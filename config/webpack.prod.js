@@ -9,10 +9,6 @@ module.exports = merge(common, {
 	mode: 'production',
   devtool: 'source-map',
 	optimization: {
-    splitChunks: {
-      chunks: 'all',
-      name: false,
-    },
     minimize: true,
     minimizer: [
     	new CssMinimizerPlugin(),
